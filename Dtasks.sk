@@ -1,20 +1,119 @@
-command /Atab1:
+command /Dtask:
   permission: sk.Admin
   trigger:
-    open chest with 1 rows named "&6Aufgaben" to player
+    open chest with 6 rows named "&6Aufgaben" to player
     set slot 1 of player's current inventory to lime wool named "&6Claim"
-    set slot 4 of player's current inventory to redstone block named "&6Anzahlung"
-    set slot 6 of player's current inventory to iron block named "&6Today you need"
+    set slot 4 of player's current inventory to redstone block named "&6Abgeben"
+    set slot 7 of player's current inventory to iron block named "&6Today you need"
+    set slot 9 of player's current inventory to Black Stained Glass Pane
+    set slot 10 of player's current inventory to Black Stained Glass Pane
+    set slot 11 of player's current inventory to Black Stained Glass Pane
+    set slot 12 of player's current inventory to Black Stained Glass Pane
+    set slot 13 of player's current inventory to lava bucket named "&4Coming soon"
+    set slot 14 of player's current inventory to Black Stained Glass Pane
+    set slot 15 of player's current inventory to Black Stained Glass Pane
+    set slot 16 of player's current inventory to Black Stained Glass Pane
+    set slot 17 of player's current inventory to Black Stained Glass Pane
+
+#Rechts
+    set slot 18 of player's current inventory to Black Stained Glass Pane
+    set slot 27 of player's current inventory to Black Stained Glass Pane
+    set slot 36 of player's current inventory to Black Stained Glass Pane
+    set slot 45 of player's current inventory to Black Stained Glass Pane
+#Mitte
+    set slot 22 of player's current inventory to Black Stained Glass Pane
+    set slot 31 of player's current inventory to Black Stained Glass Pane
+    set slot 40 of player's current inventory to Black Stained Glass Pane
+    set slot 49 of player's current inventory to Black Stained Glass Pane
 
 
-every 1440 minute:
-  loop {check::list::*}:
-    delete {check::list::*}
-    delete {quest::Heute::*}
 
-every 1440 minutes:
+#Links
+    set slot 26 of player's current inventory to Black Stained Glass Pane
+    set slot 35 of player's current inventory to Black Stained Glass Pane
+    set slot 44 of player's current inventory to Black Stained Glass Pane
+    set slot 53 of player's current inventory to Black Stained Glass Pane
+
+
+
+    if {Aufgabe1::%player%} is true:
+      set slot 24 of player's current inventory to {invremove1}
+
+      if {Aufgabe2::%player%} is true:
+        set slot 33 of player's current inventory to {invremove2}
+
+        if {Aufgabe3::%player%} is true:
+          set slot 42 of player's current inventory to {invremove3}
+
+      if {Aufgabe3::%player%} is true:
+        set slot 42 of player's current inventory to {invremove3}
+
+
+
+      if {Aufgabe2::%player%} is true:
+        set slot 33 of player's current inventory to {invremove2}
+
+        if {Aufgabe3::%player%} is true:
+          set slot 42 of player's current inventory to {invremove3}
+
+          if {Aufgabe2::%player%} is true:
+            set slot 33 of player's current inventory to {invremove2}
+
+        if {Aufgabe2::%player%} is true:
+          set slot 33 of player's current inventory to {invremove2}
+
+
+      if {Aufgabe3::%player%} is true:
+        set slot 42 of player's current inventory to {invremove3}
+
+        if {Aufgabe2::%player%} is true:
+          set slot 33 of player's current inventory to {invremove2}
+
+          if {Aufgabe1::%player%} is true:
+            set slot 24 of player's current inventory to {invremove1}
+
+      if {Aufgabe1::%player%} is true:
+        set slot 24 of player's current inventory to {invremove1}
+
+
+
+
+
+
+
+
+
+
+
+#Aufgabe Rechts
+    set slot 20 of player's current inventory to {invremove1}
+    set slot 29 of player's current inventory to {invremove2}
+    set slot 38 of player's current inventory to {invremove3}
+
+
+
+
+on load:
+  delete {check::list}
+  delete {quest::Heute}
+  delete {check::list}
+  delete {quest}
+  delete {reward1}
+  delete {reward1n}
+  delete {reward2}
+  delete {reward2n}
+  delete {invremove1}
+  delete {invremove1n}
+  delete {invremove2}
+  delete {invremove2n}
+  delete {invremove3}
+  delete {invremove3n}
+  delete {Aufgabe1}
+  delete {Aufgabe2}
+  delete {Aufgabe3}
+
+  wait 100 ticks
   chance of 30%:
-    delete {quest::Heute::*}
     set {quest} to 1
     set {reward1} to Black Shulker Box
     set {reward1n} to 1
@@ -55,23 +154,23 @@ every 1440 minutes:
 
 
 
-    chance of 100%:
-      delete {quest::Heute::*}
-      set {quest} to 1
-      set {reward1} to diamond Axe
-      set {reward1n} to 1
+  chance of 100%:
+    delete {quest::Heute::*}
+    set {quest} to 1
+    set {reward1} to diamond Axe
+    set {reward1n} to 1
 
-      set {reward2} to Apple
-      set {reward2n} to 32
+    set {reward2} to Apple
+    set {reward2n} to 32
 
 
-      set {invremove1} to Oak wood log
-      set {invremove1n} to 128
-      set {invremove2} to Oak Sapling
-      set {invremove2n} to 64
-      set {invremove3} to iron Axe
-      set {invremove3n} to 1
-      add "For today's quest do you need: %{invremove1n}% %{invremove1}% %{invremove3n}% %{invremove3}% and %{invremove2n}% %{invremove2}%" to {quest::Heute::*}
+    set {invremove1} to Oak wood log
+    set {invremove1n} to 128
+    set {invremove2} to Oak Sapling
+    set {invremove2n} to 64
+    set {invremove3} to iron Axe
+    set {invremove3n} to 1
+    add "For today's quest do you need: %{invremove1n}% %{invremove1}% %{invremove3n}% %{invremove3}% and %{invremove2n}% %{invremove2}%" to {quest::Heute::*}
 
 
 
@@ -91,6 +190,7 @@ on inventory click:
           if {Aufgabe3::%player%} is true:
             message "&6Cool du hast es geschaft!"
             add {rew} to player's inventory
+            set {check::list::%uuid of player%} to true
             set {Aufgabe1::%player%} to false
             set {Aufgabe2::%player%} to false
             set {Aufgabe3::%player%} to false
@@ -107,21 +207,55 @@ on inventory click:
     clicked slot is 4:
       if {quest} is 1:
         if {check::list::%uuid of player%} is not set:
-          set {check::list::%uuid of player%} to true
           if player has {invremove1n} of {invremove1} in his inventory:
+            remove {invremove1n} of {invremove1} from player's inventory
+            set {Aufgabe1::%player%} to true
             if player has {invremove2n} of {invremove2} in his inventory:
+              remove {invremove2n} of {invremove2} from player's inventory
+              set {Aufgabe2::%player%} to true
               if player has {invremove3n} of {invremove3} in his inventory:
-                remove {invremove1n} of {invremove1} from player's inventory
-                remove {invremove2n} of {invremove2} from player's inventory
                 remove {invremove3n} of {invremove3} from player's inventory
-                set {Aufgabe1::%player%} to true
-                set {Aufgabe2::%player%} to true
                 set {Aufgabe3::%Player%} to true
+#2
+          if player has {invremove2n} of {invremove2} in his inventory:
+            remove {invremove2n} of {invremove2} from player's inventory
+            set {Aufgabe2::%player%} to true
+            if player has {invremove3n} of {invremove3} in his inventory:
+              remove {invremove3n} of {invremove3} from player's inventory
+              set {Aufgabe3::%Player%} to true
+              if player has {invremove1n} of {invremove1} in his inventory:
+                remove {invremove1n} of {invremove1} from player's inventory
+                set {Aufgabe1::%player%} to true
+#3
+
+
+
+
+
+
+          if player has {invremove3n} of {invremove3} in his inventory:
+            remove {invremove3n} of {invremove3} from player's inventory
+            set {Aufgabe3::%Player%} to true
+            if player has {invremove1n} of {invremove1} in his inventory:
+              remove {invremove1n} of {invremove1} from player's inventory
+              set {Aufgabe1::%player%} to true
+              if player has {invremove2n} of {invremove2} in his inventory:
+                remove {invremove2n} of {invremove2} from player's inventory
+                set {Aufgabe2::%player%} to true
+
+
+
+
         else:
           message "Du hast diese Quest schon abgeschlossen."
 
 
 
-    clicked slot is 6:
-      message "%{quest::Heute::*}%"
-      set {quest} to 1
+
+  #  clicked slot is 6:
+  #    message "%{quest::Heute::*}%"
+  #    set {quest} to 1
+
+  #  clicked slot is 12:
+  #    if {player's::Taler::%Player%} >= 50:
+  #      remove 50 from {player's::Taler::%Player%}
