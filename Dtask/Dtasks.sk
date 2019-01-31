@@ -1,0 +1,180 @@
+command /Dtask [<player>]:
+  permission: sk.Admin
+  trigger:
+    open chest with 6 rows named "&6Aufgaben" to arg-1 or player
+  #  broadcast "%{Aufgabe1::arg-1}% %{Aufgabe2::arg-1}% %{Aufgabe3::arg-1}%"
+    set slot 1 of arg-1 or player's current inventory to lime wool named "&6Claim"
+    set slot 4 of arg-1 or player's current inventory to redstone block named "&6Abgeben"
+    set slot 7 of arg-1 or player's current inventory to iron block named "&6Today you need"
+    set slot 9 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 10 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 11 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 12 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 13 of arg-1 or player's current inventory to lava bucket named "&4Coming soon"
+    set slot 14 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 15 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 16 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 17 of arg-1 or player's current inventory to Black Stained Glass Pane
+#Rechts
+    set slot 18 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 27 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 36 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 45 of arg-1 or player's current inventory to Black Stained Glass Pane
+#Mitte
+    set slot 22 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 31 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 40 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 49 of arg-1 or player's current inventory to Black Stained Glass Pane
+#Links
+    set slot 26 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 35 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 44 of arg-1 or player's current inventory to Black Stained Glass Pane
+    set slot 53 of arg-1 or player's current inventory to Black Stained Glass Pane
+#-----------------------------------------------------------------------------1
+    if {Aufgabe1::%arg-1%} or {Aufgabe1::%player%} is true:
+      set slot 24 of arg-1 or player's current inventory to {invremove1}
+
+      if {Aufgabe2::%arg-1%} or {Aufgabe2::%player%} is true:
+        set slot 33 of arg-1 or player's current inventory to {invremove2}
+
+        if {Aufgabe3::%arg-1%} or {Aufgabe3::%player%} is true:
+          set slot 42 of arg-1 or player's current inventory to {invremove3}
+#-----------------------------------------------------------------------------2
+    if {Aufgabe2::%arg-1%} or {Aufgabe2::%player%} is true:
+      set slot 33 of arg-1 or player's current inventory to {invremove2}
+
+      if {Aufgabe1::%arg-1%} or {Aufgabe1::%player%} is true:
+        set slot 24 of arg-1 or player's current inventory to {invremove1}
+
+        if {Aufgabe3::%arg-1%} or {Aufgabe3::%player%} is true:
+          set slot 42 of arg-1 or player's current inventory to {invremove3}
+#-----------------------------------------------------------------------------5
+    if {Aufgabe3::%arg-1%} or {Aufgabe3::%player%} is true:
+      set slot 42 of arg-1 or player's current inventory to {invremove3}
+
+      if {Aufgabe2::%arg-1%} or {Aufgabe2::%player%} is true:
+        set slot 33 of arg-1 or player's current inventory to {invremove2}
+
+        if {Aufgabe1::%arg-1%} or {Aufgabe1::%player%} is true:
+          set slot 24 of arg-1 or player's current inventory to {invremove1}
+#-----------------------------------------------------------------------------6
+#Aufgabe Rechts
+    set slot 20 of arg-1 or player's current inventory to {invremove1}
+    set slot 29 of arg-1 or player's current inventory to {invremove2}
+    set slot 38 of arg-1 or player's current inventory to {invremove3}
+
+
+
+on inventory click:
+  if inventory name of current inventory of player is "&6Aufgaben":
+    cancel Event
+    clicked slot is 1:
+      if {Aufgabe1::arg-1} or {Aufgabe1::%player%} is true:
+        if {Aufgabe2::arg-1} or {Aufgabe2::%player%} is true:
+          if {Aufgabe3::arg-1} or {Aufgabe3::%player%} is true:
+            message "&6Cool du hast es geschaft!"
+            set {check::list::uuid of arg-1} or {check::list::%uuid of player%} to true
+            set {Aufgabe1::arg-1} or {Aufgabe1::%player%} to false
+            set {Aufgabe2::arg-1} or {Aufgabe2::%player%} to false
+            set {Aufgabe3::arg-1} or {Aufgabe3::%player%} to false
+            add {reward1n} of {reward1} to player's inventory
+            add {reward2n} of {reward2} to player's inventory
+            message "Cool you did it, you get %{reward1n}% %{reward1}%"
+            if {reward2} is set:
+              message "and %{reward2n}% %{reward2}%"
+
+
+
+
+
+    clicked slot is 4:
+      if {quest} is 1:
+        if {check::list::uuid of arg-1} or {check::list::%uuid of player%} is not set:
+          if player has {invremove1n} of {invremove1} in his inventory:
+            if {Aufgabe1::arg-1} or {Aufgabe1::%player%} is not set:
+              remove {invremove1n} of {invremove1} from player's inventory
+              set {Aufgabe1::arg-1} or {Aufgabe1::%player%} to true
+              wait 1 tick
+              close player's inventory
+              execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+            if player has {invremove2n} of {invremove2} in his inventory:
+              if {Aufgabe2::arg-1} or {Aufgabe2::%player%} is not set:
+                remove {invremove2n} of {invremove2} from player's inventory
+                set {Aufgabe2::arg-1} or {Aufgabe2::%player%} to true
+                wait 1 tick
+                close player's inventory
+                execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+              if player has {invremove3n} of {invremove3} in his inventory:
+                if {Aufgabe3::arg-1} or {Aufgabe3::%player%} is not set:
+                  remove {invremove3n} of {invremove3} from player's inventory
+                  set {Aufgabe3::arg-1} or {Aufgabe3::%Player%} to true
+                  wait 1 tick
+                  close player's inventory
+                  execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+          if player has {invremove2n} of {invremove2} in his inventory:
+            if {Aufgabe2::arg-1} or {Aufgabe2::%player%} is not set:
+              remove {invremove2n} of {invremove2} from player's inventory
+              set {Aufgabe2::arg-1} or {Aufgabe2::%player%} to true
+              wait 1 tick
+              close player's inventory
+              execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+            if player has {invremove3n} of {invremove3} in his inventory:
+              if {Aufgabe3::arg-1} or {Aufgabe3::%player%} is not set:
+                remove {invremove3n} of {invremove3} from player's inventory
+                set {Aufgabe3::arg-1} or {Aufgabe3::%Player%} to true
+                wait 1 tick
+                close player's inventory
+                execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+              if player has {invremove1n} of {invremove1} in his inventory:
+                if {Aufgabe1::arg-1} or {Aufgabe1::%player%} is not set:
+                  remove {invremove1n} of {invremove1} from player's inventory
+                  set {Aufgabe1::arg-1} or {Aufgabe1::%player%} to true
+                  wait 1 tick
+                  close player's inventory
+                  execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+          if player has {invremove3n} of {invremove3} in his inventory:
+            if {Aufgabe3::arg-1} or {Aufgabe3::%player%} is not set:
+              remove {invremove3n} of {invremove3} from player's inventory
+              set {Aufgabe3::arg-1} or {Aufgabe3::%Player%} to true
+              wait 1 tick
+              close player's inventory
+              execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+            if player has {invremove1n} of {invremove1} in his inventory:
+              if {Aufgabe1::arg-1} or {Aufgabe1::%player%} is not set:
+                remove {invremove1n} of {invremove1} from player's inventory
+                set {Aufgabe1::arg-1} or {Aufgabe1::%player%} to true
+                wait 1 tick
+                close player's inventory
+                execute console command "/Dtask %player%"
+#-----------------------------------------------------------------------------
+              if player has {invremove2n} of {invremove2} in his inventory:
+                if {Aufgabe2::arg-1} or {Aufgabe2::%player%} is not set:
+                  remove {invremove2n} of {invremove2} from player's inventory
+                  set {Aufgabe2::arg-1} or {Aufgabe2::%player%} to true
+                  wait 1 tick
+                  close player's inventory
+                  execute console command "/Dtask %player%"
+
+
+
+
+        else:
+          message "Du hast diese Quest schon abgeschlossen."
+
+
+
+
+    clicked slot is 7:
+      message "%{quest::Heute::*}%"
+      set {quest} to 1
+
+  #  clicked slot is 12:
+  #    if {player's::Taler::%Player%} >= 50:
+  #      remove 50 from {player's::Taler::%Player%}
