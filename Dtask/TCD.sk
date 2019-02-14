@@ -1,0 +1,100 @@
+on rightclick on villager:
+  if display name of clicked entity is "Tcd":
+    Cancel Event
+    execute console command "/TCD %player%"
+
+
+
+command /tcda <player> <text>:
+  trigger:
+    if arg-2 is "1de":
+      message "[&6TCD&f]&7Cool danke!" to arg-1
+      wait 25 ticks
+      message "[&6TCD&f]&7Ich brauche 64 Eicheng Holzbretter und eineng  Eimer Wasser:"
+      set {TCD::%arg-1%::level} to 1
+
+    if arg-2 is "2de":
+      message "[&6TCD&f]&7Ok, Schade vielleicht Später mal." to arg-1
+
+    if arg-2 is "1eng":
+      message "[&6TCD&f]&7Cool, thanks!" to arg-1
+      wait 25 ticks
+      message "[&6TCD&f]&7I need 64 oak planks and a bucket of water:"
+      set {TCD::%arg-1%::level} to 1
+
+    if arg-2 is "2eng":
+      message "[&6TCD&f]&7Okay, too bad maybe later." to arg-1
+
+    if arg-2 is "3de":
+      if player has 64 oak planks in his inventory:
+        if player has water bucket in his inventory:
+        remove 64 oak planks from player's inventory
+        remove water bucket from player'S inventory
+        message "[&6TCD&f]Danke für deine Tolle Hilfe."
+        json("%arg-1%", "||>>>>&eUnd meine Belohnung?||cmd:/Tcda %arg-1% 5de||")
+
+    if arg-2 is "4de":
+      message "[&6TCD&f]Dann los los los!"
+
+    if arg-2 is "3eng":
+      if player has 64 oak planks in his inventory:
+        if player has water bucket in his inventory:
+        remove 64 oak planks from player's inventory
+        remove water bucket from player'S inventory
+        message "[&6TCD&f]Thanks for your great help."
+        json("%arg-1%", "||>>>>&eAnd my reward??||cmd:/Tcda %arg-1% 5eng||")
+
+    if arg-2 is "4eng":
+      message "[&6TCD&f]Then go go go!"
+
+    if arg-2 is "5de":
+      message "[&6TCD&f]Oh Entschuldigung in Letzter zeit bin ich ein bisschen vergesslich."
+      give player 1 Melon
+      add 1 to {TCD::%arg-1%::level}
+
+    if arg-2 is "5eng":
+      message "[&6TCD&f]Oh sorry lately I'm a bit forgetful."
+      give player 1 Melon
+      add 1 to {TCD::%arg-1%::level}
+
+
+
+
+
+
+
+command /TCD <player>:
+  permission: Sk.Admin
+  trigger:
+    if {language::eng} is true:
+      if {TCD::%arg-1%::level} is not set:
+        message "&6Hello I am the confused dealer, Unfortunately, I do not know why people call me that, but no matter.." to arg-1
+        wait 15 ticks
+        message "&6Could you help me?  You also get a reward. " to arg-1
+        wait 50 ticks
+        json("%arg-1%", "||>>>>&eYes why not.||cmd:/Tcda %arg-1% 1eng||")
+        json("%arg-1%", "||>>>>&engo thanks.||cmd:/tcda %arg-1% 2eng||")
+
+      if {TCD::%arg-1%::level} is 1:
+        message "[&6TCD&f]&7Do you have the 64 oak boards?" to arg-1
+        wait 10 ticks
+        json("%arg-1%", "||>>>>&eYes.||cmd:/Tcda %arg-1% 3eng||")
+        json("%arg-1%", "||>>>>&eNo.||cmd:/Tcda %arg-1% 4eng||")
+
+
+
+
+    if {language::de} is true:
+      if {TCD::%arg-1%::level} is not set:
+        message "[&6TCD&f]&7Hallo ich bin der Verwirte Händler, ich weiß leider nicht warum die Leute mich so nengneng aber egal." to arg-1
+        wait 50 ticks
+        message "[&6TCD&f]&7Kannst du mir vielleicht Helfen Du bekommst auch eine Belohnung. " to arg-1
+        wait 50 ticks
+        json("%arg-1%", "||>>>>&eja warum nicht.||cmd:/Tcda %arg-1% 1de||")
+        json("%arg-1%", "||>>>>&engein danke.||cmd:/tcda %arg-1% 2de||")
+
+      if {TCD::%arg-1%::level} is 1:
+        message "[&6TCD&f]&7Hast du die 64 Eichenholzbretter?" to arg-1
+        wait 10 ticks
+        json("%arg-1%", "||>>>>&eja.||cmd:/Tcda %arg-1% 3de||")
+        json("%arg-1%", "||>>>>&eNein.||cmd:/Tcda %arg-1% 4de||")

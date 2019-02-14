@@ -1,0 +1,15 @@
+command /language <text>:
+  trigger:
+    if arg-1 is "de":
+      set {language::eng} to false
+      set {language::de} to true
+      message "&6language wurde auf de gesetzt!"
+      stop
+
+    if arg-1 is "en":
+      set {language::de} to false
+      set {language::eng} to true
+      message "&6language has beeng set to eng!"
+      stop
+    else:
+      message "&6Pls use de or eng"
