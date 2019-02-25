@@ -1,0 +1,51 @@
+# Tpa Skript by Altonos 21.01.2019
+#to do| tpa here
+on load:
+  delete {tpa::check::*}
+  delete {tpa::wait::%%}
+
+
+command /tpa <player>:
+  trigger:
+    #set {_testgeld} to 1000
+
+    #commandcooldown
+    if {tpa::wait::%player%} is not set:
+      set {tpa::wait::%player%} to true
+      set {_testgeld} to 1000
+
+
+      if "%player's world%" contains "sv_nether":
+        send "[&6TPA&f]&7 Du kannst tpa hier nicht nutzen!"
+
+    #  if player's balance >= 100:
+      if {_testgeld} >= 50:
+
+        send " {""command"":""/tellraw @p %s"",""jobject"":[{""text"":""Der Teleport Kostet 100 Taler bist du dir sicher? | Klicke Hier |"",""color"":""gold""}],""jtemplate"":""tellraw""} "
+
+        set {tpa::check::%uuid of arg-1%} to player
+        send "[&6TPA&f]&7 Spieler %player% will sich zu dir Teleportieren" to arg-1
+        message "[&6TPA&f]&7 Du hast %arg-1% eine tpa Anfrage geschickt"
+        wait 20 seconds
+        delete {tpa::wait::%player%}
+        if {tpa::check::%uuid of player%} is not set:
+        #  remove 100 from player's balance
+          remove 50 from {_testgeld}
+          delete {tpa::check::%uuid of player%}
+        else:
+          delete {tpa::check::%uuid of player%}
+          send "[&6TPA&f]&7 Tpa wurde nicht angenommen"
+      else:
+        send "[&6TPA&f]&7 Du hast nicht genug Taler"
+
+    else:
+      send "[&6TPA&f]&7 Bitte warte noch!"
+      stop
+
+
+command /tpaccept:
+  trigger:
+    #teleport player to location of {tpa::check::%uuid of player%}
+    teleport {tpa::check::%uuid of player%} to location of player
+    send "[&6TPA&f] &7Spieler %{tpa::check::%uuid of player%}% wurde zu dir Teleportiert  "
+    delete {tpa::check::%uuid of player%}

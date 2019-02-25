@@ -1,79 +1,90 @@
+
 on load:
-  delete {check::list}
-  delete {quest::Heute}
-  delete {check::list}
+  delete {check::list::*}
+  delete {quest::Heute::*}
   delete {quest}
-  delete {reward1}
-  delete {reward1n}
-  delete {reward2}
-  delete {reward2n}
-  delete {invremove1}
-  delete {invremove1n}
-  delete {invremove2}
-  delete {invremove2n}
-  delete {invremove3}
-  delete {invremove3n}
+  delete {reward1::*}
+  delete {reward1n::*}
+  delete {reward2::*}
+  delete {reward2n::*}
+  delete {invremove1::*}
+  delete {invremove1n::*}
+  delete {invremove2::*}
+  delete {invremove2n::*}
+  delete {invremove3::*}
+  delete {invremove3n::*}
   delete {Aufgabe1::*}
   delete {Aufgabe2::*}
   delete {Aufgabe3::*}
+  delete {Dtask::Skip::*}
+  stop
 
-#----------------------Farming-quest
-  wait 10 ticks
-  chance of 35%:
-    set {quest} to 1
-    set {reward1} to Black Shulker Box
-    set {reward1n} to 1
-    set {reward2} to Bottle o' Enchanting
-    set {reward2n} to 40
-    set {invremove1} to hay Blocks
-    set {invremove1n} to 64
-    set {invremove2} to Wheat Seeds
-    set {invremove2n} to 320
-    set {invremove3} to diamond hoe
-    set {invremove3n} to 1
-    add "For today's quest do you need: %{invremove1n}% %{invremove1}% %{invremove3n}% %{invremove3}% and %{invremove2n}% %{invremove2}%" to {quest::Heute::*}
-#----------------------Mining-quest
-  chance of 35%:
-    delete {quest::Heute::*}
-    set {quest} to 1
-    set {reward1} to diamonds
-    set {reward1n} to 5
-    set {reward2} to Bottle o' Enchanting
-    set {reward2n} to 20
-    set {invremove1} to Cobblestone
-    set {invremove1n} to 256
-    set {invremove2} to Iron Ore
-    set {invremove2n} to 32
-    set {invremove3} to Redstone
-    set {invremove3n} to 64
-    add "For today's quest do you need: %{invremove1n}% %{invremove1}% %{invremove3n}% %{invremove3}% and %{invremove2n}% %{invremove2}%" to {quest::Heute::*}
-#----------------------Kohle-quest
-  chance of 35%:
-    delete {quest::Heute::*}
-    set {quest} to 1
-    set {reward1} to diamonds
-    set {reward1n} to 5
-    set {reward2} to anvil
-    set {reward2n} to 1
-    set {invremove1} to coal block
-    set {invremove1n} to 64
-    set {invremove2} to lava bucket
-    set {invremove2n} to 2
-    set {invremove3} to charcoal
-    set {invremove3n} to 128
-    add "For today's quest do you need: %{invremove1n}% %{invremove1}% %{invremove3n}% %{invremove3}% and %{invremove2n}% %{invremove2}%" to {quest::Heute::*}
-#--------------------Holz-quest
-  chance of 35%:
-    delete {quest::Heute::*}
-    set {quest} to 1
-    set {reward1} to diamond Axe
-    set {reward1n} to 1
-    set {reward2} to Apple
-    set {reward2n} to 32
-    set {invremove1} to Oak wood log
-    set {invremove1n} to 128
-    set {invremove2} to Oak Sapling
-    set {invremove2n} to 64
-    set {invremove3} to iron Axe
-    set {invremove3n} to 1
-    add "For today's quest do you need: %{invremove1n}% %{invremove1}% %{invremove3n}% %{invremove3}% and %{invremove2n}% %{invremove2}%" to {quest::Heute::*}
+
+command /DSkip <player>:
+  trigger:
+    chance of 35%:
+      set {quest} to 1
+      set {reward1::%player%} to Black Shulker Box
+      set {reward1n::%player%} to 1
+      set {reward2::%player%} to Bottle o' Enchanting
+      set {reward2n::%player%} to 40
+      set {invremove1::%player%} to hay Blocks
+      set {invremove1n::%player%} to 64
+      set {invremove2::%player%} to Wheat Seeds
+      set {invremove2n::%player%} to 320
+      set {invremove3::%player%} to diamond hoe
+      set {invremove3n::%player%} to 1
+      add "For today's quest do you need: %{invremove1n::%player%}% %{invremove1::*}% %{invremove3n::%player%}% %{invremove3::%player%}% and %{invremove2n::%player%}% %{invremove2::%player%}%" to {quest::Heute::*}
+      wait 10 ticks
+      execute console command "/dtask %player%"
+    #----------------------Mining-quest
+    chance of 35%:
+      delete {quest::Heute::*}
+      set {quest} to 1
+      set {reward1::%player%} to diamonds
+      set {reward1n::%player%} to 5
+      set {reward2::%player%} to Bottle o' Enchanting
+      set {reward2n::%player%} to 20
+      set {invremove1::%player%} to Cobblestone
+      set {invremove1n::%player%} to 256
+      set {invremove2::%player%} to Iron Ore
+      set {invremove2n::%player%} to 32
+      set {invremove3::%player%} to Redstone
+      set {invremove3n::%player%} to 64
+      add "For today's quest do you need: %{invremove1n::%player%}% %{invremove1::*}% %{invremove3n::%player%}% %{invremove3::%player%}% and %{invremove2n::%player%}% %{invremove2::%player%}%" to {quest::Heute::*}
+      wait 10 ticks
+      execute console command "/dtask %player%"
+    #----------------------Kohle-quest
+    chance of 35%:
+      delete {quest::Heute::*}
+      set {quest} to 1
+      set {reward1::%player%} to diamonds
+      set {reward1n::%player%} to 5
+      set {reward2::%player%} to anvil
+      set {reward2n::%player%} to 1
+      set {invremove1::%player%} to coal block
+      set {invremove1n::%player%} to 64
+      set {invremove2::%player%} to lava bucket
+      set {invremove2n::%player%} to 2
+      set {invremove3::%player%} to charcoal
+      set {invremove3n::%player%} to 128
+      add "For today's quest do you need: %{invremove1n::%player%}% %{invremove1::*}% %{invremove3n::%player%}% %{invremove3::%player%}% and %{invremove2n::%player%}% %{invremove2::%player%}%" to {quest::Heute::*}
+      wait 10 ticks
+      execute console command "/dtask %player%"
+      #--------------------Holz-quest
+    chance of 35%:
+      delete {quest::Heute::*}
+      set {quest} to 1
+      set {reward1::%player%} to diamond Axe
+      set {reward1n::%player%} to 1
+      set {reward2::%player%} to Apple
+      set {reward2n::%player%} to 32
+      set {invremove1::%player%} to Oak wood log
+      set {invremove1n::%player%} to 128
+      set {invremove2::%player%} to Oak Sapling
+      set {invremove2n::%player%} to 64
+      set {invremove3::%player%} to iron Axe
+      set {invremove3n::%player%} to 1
+      add "For today's quest do you need: %{invremove1n::%player%}% %{invremove1::*}% %{invremove3n::%player%}% %{invremove3::%player%}% and %{invremove2n::%player%}% %{invremove2::%player%}%" to {quest::Heute::*}
+      wait 10 ticks
+      execute console command "/dtask %player%"
